@@ -82,120 +82,6 @@ class _ContactListScreenState extends State<ContactListScreen> {
         "Number of items at start: ${_contactList.length}"); // Check the number of items in the list at the start
   }
 
-  // void _showDialogBox(int? id) async {
-  //   if (id != null) {
-  //     final existingContactList =
-  //         _contactList.firstWhere((element) => element['id'] == id);
-  //     _nameController.text = existingContactList['name'];
-  //     _phoneController.text = existingContactList['phone'];
-  //     _emailController.text = existingContactList['email'];
-  //     _addressController.text = existingContactList['address'];
-  //     _photo = base64Decode(existingContactList['photo']);
-  //   } else {
-  //     _nameController.clear();
-  //     _phoneController.clear();
-  //     _emailController.clear();
-  //     _addressController.clear();
-  //     _photo = Uint8List(0);
-  //   }
-  // }
-
-  // Future<dynamic> _editContactDetailsMethod(BuildContext context, int index) {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       // this rebuilds the dialog box with the new data
-  //       return StatefulBuilder(
-  //         builder: (BuildContext context, StateSetter setState) {
-  //           Uint8List photo = _photo;
-  //           return AlertDialog(
-  //             title: Text(_contactList[index]['name']),
-  //             content: SingleChildScrollView(
-  //               child: Column(
-  //                 children: [
-  //                   Column(
-  //                     children: [
-  //                       CircleAvatar(
-  //                         radius: 40,
-  //                         backgroundImage:
-  //                             photo.isNotEmpty ? MemoryImage(photo) : null,
-  //                         child: photo.isEmpty
-  //                             ? Text(_contactList[index]['name'][0])
-  //                             : null,
-  //                       ),
-  //                       Row(
-  //                         children: [
-  //                           TextButton(
-  //                             onPressed: () async {
-  //                               final pickedFile =
-  //                                   await ImagePicker().pickImage(
-  //                                 source: ImageSource.gallery,
-  //                               );
-  //                               if (pickedFile != null) {
-  //                                 photo =
-  //                                     await File(pickedFile.path).readAsBytes();
-  //                                 setState(() {
-  //                                   _photo = photo;
-  //                                   debugPrint('State update Triggered');
-  //                                 });
-  //                               }
-  //                             },
-  //                             child: const Text('Change Photo'),
-  //                           ),
-  //                           TextButton(
-  //                             onPressed: () {
-  //                               setState(() {
-  //                                 _photo = Uint8List(0);
-  //                               });
-  //                             },
-  //                             child: const Text('Remove Photo'),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   TextField(
-  //                     controller: _nameController,
-  //                     decoration: const InputDecoration(
-  //                       labelText: 'Name',
-  //                     ),
-  //                   ),
-  //                   TextField(
-  //                     controller: _phoneController,
-  //                     decoration: const InputDecoration(
-  //                       labelText: 'Phone',
-  //                     ),
-  //                   ),
-  //                   TextField(
-  //                     controller: _emailController,
-  //                     decoration: const InputDecoration(
-  //                       labelText: 'Email',
-  //                     ),
-  //                   ),
-  //                   TextField(
-  //                     controller: _addressController,
-  //                     decoration: const InputDecoration(
-  //                       labelText: 'Address',
-  //                     ),
-  //                   ),
-  //                   ElevatedButton(
-  //                     onPressed: () {
-  //                       _updateContact(_contactList[index]['id']);
-  //                       _refreshContacts();
-  //                       Navigator.of(context).pop();
-  //                     },
-  //                     child: const Text('Update'),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
-
   Future<dynamic> _showDialogBox(int? id, int index) {
     if (id != null) {
       final existingContactList =
@@ -229,13 +115,6 @@ class _ContactListScreenState extends State<ContactListScreen> {
                     children: [
                       Column(
                         children: [
-                          // CircleAvatar(
-                          //   radius: 40,
-                          //   backgroundImage:
-                          //       photo.isNotEmpty ? MemoryImage(photo) : null,
-                          //   child: photo.isEmpty
-                          //       ? Text(_contactList[index]['name'][0])
-                          //       : null,
                           photo.isNotEmpty
                               ? CircleAvatar(
                                   // circle image of the contact
