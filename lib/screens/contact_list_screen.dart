@@ -233,6 +233,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
             child: Column(
               children: [
                 // SEARCH BAR NOT FUCTIONING, BACKSPACE DOES NOT WORK >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                // Fix the Search Bar and the Backspace >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
                 // Padding(
                 //   padding: const EdgeInsets.all(8.0),
