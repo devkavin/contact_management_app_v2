@@ -223,100 +223,134 @@ class _ContactListScreenState extends State<ContactListScreen> {
             },
             icon: const Icon(Icons.add),
           ),
-          IconButton(
-            onPressed: () {
-              _searchContact('a');
-            },
-            icon: const Icon(Icons.search),
-          ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _contactList.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        title: Text(_contactList[index]['name']),
-                        subtitle: Text(_contactList[index]['phone']),
-                        leading: CircleAvatar(
-                          backgroundImage: _contactList[index]['photo'] == ""
-                              ? null
-                              : MemoryImage(
-                                  base64Decode(_contactList[index]['photo'])),
-                          child: _contactList[index]['photo'] == ""
-                              ? Text(_contactList[index]['name'][0])
-                              : null,
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            _deleteContact(_contactList[index]['id']);
-                            _refreshContacts();
-                          },
-                        ),
-                        onTap: () =>
-                            // display the contact details on a new screen with the option to edit or delete
-                            showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text(_contactList[index]['name']),
-                            content: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    child: CircleAvatar(
-                                      radius: 40,
-                                      backgroundImage: _contactList[index]
-                                                  ['photo'] ==
-                                              ""
-                                          ? null
-                                          : MemoryImage(base64Decode(
-                                              _contactList[index]['photo'])),
-                                      child: _contactList[index]['photo'] == ""
-                                          ? Text(_contactList[index]['name'][0])
-                                          : null,
-                                    ),
-                                  ),
-                                  const Divider(),
-                                  ContactDetailsWidget(
-                                      contactList: _contactList, index: index),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Close'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
+      body: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+        return SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                // SEARCH BAR NOT FUCTIONING, BACKSPACE DOES NOT WORK >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-                                  _showDialogBox(
-                                      _contactList[index]['id'], index);
-                                },
-                                child: const Text('Edit'),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: TextField(
+                //     decoration: const InputDecoration(
+                //       labelText: 'Search',
+                //       prefixIcon: Icon(Icons.search),
+                //       border: OutlineInputBorder(),
+                //     ),
+                //     onChanged: (value) {
+                //       _searchContact(value);
+                //       // build the list of contacts based on the search keyword
+                //       setState(() {
+                //         _contactList = _contactList;
+                //       });
+                //     },
+                //   ),
+                // ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _contactList.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: ListTile(
+                          title: Text(_contactList[index]['name']),
+                          subtitle: Text(_contactList[index]['phone']),
+                          leading: CircleAvatarWidget(
+                            contactList: _contactList,
+                            index: index,
+                            radius: 20,
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              _deleteContact(_contactList[index]['id']);
+                              _refreshContacts();
+                            },
+                          ),
+                          onTap: () => showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(_contactList[index]['name']),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      child: CircleAvatarWidget(
+                                        contactList: _contactList,
+                                        index: index,
+                                        radius: 40,
+                                      ),
+                                    ),
+                                    const Divider(),
+                                    ContactDetailsWidget(
+                                        contactList: _contactList,
+                                        index: index),
+                                  ],
+                                ),
                               ),
-                            ],
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Close'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+
+                                    _showDialogBox(
+                                        _contactList[index]['id'], index);
+                                  },
+                                  child: const Text('Edit'),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
+    );
+  }
+}
+
+class CircleAvatarWidget extends StatelessWidget {
+  const CircleAvatarWidget({
+    super.key,
+    required List<Map<String, dynamic>> contactList,
+    required this.index,
+    required this.radius,
+  }) : _contactList = contactList;
+
+  // get radius from the parent widget
+  final double radius;
+
+  final int index;
+
+  final List<Map<String, dynamic>> _contactList;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      // if radius is not set, the default value is 20
+      radius: radius,
+      backgroundImage: _contactList[index]['photo'] == ""
+          ? null
+          : MemoryImage(base64Decode(_contactList[index]['photo'])),
+      child: _contactList[index]['photo'] == ""
+          ? Text(_contactList[index]['name'][0])
+          : null,
     );
   }
 }
