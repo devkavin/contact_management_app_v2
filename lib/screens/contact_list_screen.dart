@@ -287,6 +287,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                                       ),
                                     ),
                                     const Divider(),
+                                    // Contact details
                                     ContactDetailsWidget(
                                         contactList: _contactList,
                                         index: index),
