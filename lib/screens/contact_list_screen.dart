@@ -21,7 +21,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
   void _refreshContacts() async {
     // get the contacts
-    final data = await SQLHelper.getItemsSorted('name', 'ASC');
+    final data = await SQLHelper.getContacts();
     setState(() {
       _contactList = data;
       _isLoading = false;
@@ -71,7 +71,10 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
   Future<void> _searchContact(String keyword) async {
     // search the contact
-    await SQLHelper.searchItems(keyword);
+    final data = await SQLHelper.searchContacts(keyword);
+    setState(() {
+      _contactList = data;
+    });
   }
 
   @override
@@ -234,23 +237,19 @@ class _ContactListScreenState extends State<ContactListScreen> {
               children: [
                 // SEARCH BAR NOT FUCTIONING, BACKSPACE DOES NOT WORK >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: TextField(
-                //     decoration: const InputDecoration(
-                //       labelText: 'Search',
-                //       prefixIcon: Icon(Icons.search),
-                //       border: OutlineInputBorder(),
-                //     ),
-                //     onChanged: (value) {
-                //       _searchContact(value);
-                //       // build the list of contacts based on the search keyword
-                //       setState(() {
-                //         _contactList = _contactList;
-                //       });
-                //     },
-                //   ),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Search',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      _searchContact(value);
+                    },
+                  ),
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: _contactList.length,

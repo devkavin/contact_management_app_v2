@@ -99,11 +99,17 @@ class SQLHelper {
     return result;
   }
 
-  static Future<List<Map<String, dynamic>>> searchItems(String keyword) async {
+// database search function for the search bar widget
+  static Future<List<Map<String, dynamic>>> searchContacts(String query) async {
     final db = await SQLHelper.db();
-    return db.query('Contacts',
-        where: "name LIKE ? OR phone LIKE ?",
-        whereArgs: ['%$keyword%', '%$keyword%']);
+    final data = await db.query('Contacts',
+        where: 'name LIKE ? OR phone LIKE ? OR email LIKE ?',
+        whereArgs: [
+          '%$query%',
+          '%$query%',
+          '%$query%',
+        ]);
+    return data;
   }
 
   static Future<Map<String, dynamic>> getItem(int id) async {
@@ -138,5 +144,11 @@ class SQLHelper {
   static Future<List<Map<String, dynamic>>> getContact(int id) async {
     final db = await SQLHelper.db();
     return db.query('contacts', where: "id = ?", whereArgs: [id], limit: 1);
+  }
+
+  // getContacts
+  static Future<List<Map<String, dynamic>>> getContacts() async {
+    final db = await SQLHelper.db();
+    return db.query('contacts', orderBy: "name ASC");
   }
 }
