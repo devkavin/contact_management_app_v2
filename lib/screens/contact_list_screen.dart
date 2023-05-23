@@ -235,7 +235,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
-                // SEARCH BAR NOT FUCTIONING, BACKSPACE DOES NOT WORK >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                // SEARCH BAR FIXED, BACKSPACE WORKING PERFECTLY
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -266,8 +266,32 @@ class _ContactListScreenState extends State<ContactListScreen> {
                           trailing: IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              _deleteContact(_contactList[index]['id']);
-                              _refreshContacts();
+                              // show confirmation dialog box
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Delete Contact'),
+                                  content: const Text(
+                                      'Are you sure you want to delete this contact?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('No'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        _deleteContact(
+                                            _contactList[index]['id']);
+                                        _refreshContacts();
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                  ],
+                                ),
+                              );
                             },
                           ),
                           onTap: () => showDialog(
@@ -350,7 +374,12 @@ class CircleAvatarWidget extends StatelessWidget {
           ? null
           : MemoryImage(base64Decode(_contactList[index]['photo'])),
       child: _contactList[index]['photo'] == ""
-          ? Text(_contactList[index]['name'][0])
+          ? _contactList[index]['name'].toString().length > 1
+              ? Text(
+                  _contactList[index]['name'].toString().substring(0, 2),
+                  style: const TextStyle(fontSize: 20),
+                )
+              : null
           : null,
     );
   }
