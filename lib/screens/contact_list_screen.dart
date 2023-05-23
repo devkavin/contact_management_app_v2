@@ -28,13 +28,6 @@ class _ContactListScreenState extends State<ContactListScreen> {
     });
   }
 
-  // update memory image
-  void _updateMemoryImage(Uint8List bytes) {
-    setState(() {
-      _photo = bytes;
-    });
-  }
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
