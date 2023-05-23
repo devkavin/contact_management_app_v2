@@ -28,6 +28,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
     });
   }
 
+  // Text editing controllers for the text fields
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
