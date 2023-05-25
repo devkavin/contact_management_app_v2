@@ -120,6 +120,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                                 )
                               : CircleAvatar(
                                   radius: 40,
+                                  // First letter of the name displayed on the circle avatar
                                   child: Text(id != null
                                       ? _contactList[index]['name'][0]
                                       : ''),
