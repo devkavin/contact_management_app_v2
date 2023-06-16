@@ -1,6 +1,6 @@
 # contact_management_app_v2
 
-A new Flutter project.
+A new Flutter project for a contact management app.
 
 ## UI Screenshots (coming soon)
 
